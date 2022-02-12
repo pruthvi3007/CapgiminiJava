@@ -18,6 +18,7 @@ public class StreamAPI {
 		ls.add(9);
 		ls.add(0);
 		ls.add(100);
+		ls.add(-2);
 		System.out.println(ls.size());
 		System.out.println(ls);
 	
