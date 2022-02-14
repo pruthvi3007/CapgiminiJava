@@ -1,0 +1,291 @@
+pruthvi=#create table employee( emp_id int primary key,
+ emp_name varchar(100),  department varchar(50), contact_no varchar(100),  email_Id varchar(100),  emp_head_id int);
+
+CREATE TABLE
+
+pruthvi=# insert into employee values(101,'Isha','E-101',1234567890,'isha@gmail.com',105);
+
+INSERT 0 1
+
+pruthvi=#insert into employee values(102,'Priya','E-104',1234567890,'priya@yahoo.com',103);
+
+INSERT 0 1
+
+pruthvi=# insert into employee values(103,'Neha','E-101',1234567890,'neha@gmail.com',101);
+
+INSERT 0 1
+
+pruthvi=#insert into employee values(104,'Rahul','E-102',1234567890,'rahul@yahoo.com',105);
+
+INSERT 0 1
+
+pruthvi=# insert into employee values(105,'Abhishek','E-101',1234567890,'abhishek@gmail.com',102);
+
+INSERT 0 1
+
+pruthvi=#select * from employee;
+emp_id | emp_name | department | contact_no |      email_id      | emp_head_id
+--------+----------+------------+------------+--------------------+-------------
+    101 | Isha     | E-101      | 1234567890 | isha@gmail.com     |         105
+    102 | Priya    | E-104      | 1234567890 | priya@yahoo.com    |         103
+    103 | Neha     | E-101      | 1234567890 | neha@gmail.com     |         101
+    104 | Rahul    | E-102      | 1234567890 | rahul@yahoo.com    |         105
+    105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |         102
+(5 rows)
+
+pruthvi=# create table empdept ( dept_id varchar(50) primary key, dept_name varchar(100), dept_off varchar(100), depthead int references employee(empid));
+ CREATE TABLE
+
+insert into empdept values('E=103','House Keeping','Tuesday',101);
+
+pruthvi=# select * from empdept ;
+ dept_id |   dept_name   | dept_off | dept_head
+---------+---------------+----------+-----------
+ E-101   | HR            | Monday   |       105
+ E-102   | Development   | Tuesday  |       101
+ E-103   | House Keeping | Saturday |       103
+ E-104   | Sales         | Sunday   |       104
+ E-105   | Purchase      | Tuesday  |       104
+(5 rows)
+
+pruthvi=# create table empsalary,emp_id int references employee(emp_id), salary bigint, ispermanent varchar(20)); 
+CREATE TABLE
+ insert into empsalary values(101,2000,'Yes');
+
+INSERT 0 1
+
+pruthvi=# select * from empsalary ;
+ emp_id | salary | ispermanent
+--------+--------+-------------
+    101 |   2000 | Yes
+    102 |  10000 | Yes
+    103 |   5000 | No
+    104 |   1900 | Yes
+    105 |   2300 | Yes
+(5 rows)
+
+pruthvi=# create table project( projectid varchar(20) primary key, duration int); 
+CREATE TABLE
+pruthvi=# insert into project values ('p-1',23);
+
+INSERT 0 1
+
+pruthvi=# select * from project ;
+ projectid | duration
+-----------+----------
+ p-1       |       23
+ p-2       |       15
+ p-3       |       45
+ p-4       |        2
+ p-5       |       30
+(5 rows)
+
+pruthvi=# create table country( cid varchar(50) primary key, cname varchar(100));
+ CREATE TABLE
+ 
+pruthvi=# insert into country values ('c-1','INDIA');
+
+INSERT 0 1
+pruthvi=# select * from country ;
+ cid |  cname
+-----+----------
+ c-1 | India
+ c-2 | USA
+ c-3 | China
+ c-4 | Pakistan
+ c-5 | Russia
+(5 rows)
+
+create table clienttable( clientid varchar(50) primary key, test clientname varchar(100), cid varchar(50));
+ CREATE TABLE
+pruthvi=# insert into clienttable values('cl-1','ABC Group','c-1');
+ 
+INSERT 0 1
+
+pruthvi=# select * from clienttable ;
+ clientid | clientname | cid
+----------+------------+-----
+ cl-1     | ABC Group  | c-1
+ cl-2     | PQR        | c-1
+ cl-3     | XYZ        | c-2
+ cl-4     | Tech Altum | c-3
+ cl-5     | mnp        | c-5
+(5 rows)
+
+
+pruthvi=# create table empproject( empid int references employee (empid)projectid varchar(50) references project(projectid),  clientid varchar(50) references clienttable(clientid), startyear int,
+endyear int); 
+CREATE TABLE
+ 
+pruthvi=# insert into empproject values(101,'p-1','cl-1',2010,2010);
+
+INSERT 0 1
+pruthvi=# select * from empproject ;
+ empid | projectid | clientid | startyear | endyear
+-------+-----------+----------+-----------+---------
+   101 | p-1       | cl-1     |      2010 |    2010
+   102 | p-2       | cl-2     |      2010 |    2012
+   103 | p-1       | cl-3     |      2013 |
+   104 | p-4       | cl-1     |      2014 |    2015
+   105 | p-4       | cl-5     |      2015 |
+(5 rows)
+
+1. select employee whose name start with p
+pruthvi=# select * from employee where emp_name like 'P%';
+ emp_id | emp_name | department | contact_no |    email_id     | emp_head_id
+--------+----------+------------+------------+-----------------+-------------
+    102 | Priya    | E-104      | 1234567890 | priya@yahoo.com |         103
+(1 row)
+
+2.how many permanent take salary more than 5000
+
+pruthvi=# select count(salary) from empsalary where ispermanent='Yes' and salary>5000;
+ count
+-------
+     1
+(1 row)
+
+3.selectemployee whose mail is in gmail
+pruthvi=# select * from employee where email_id like '%@gmail.com';
+ emp_id | emp_name | department | contact_no |      email_id      | emp_head_id
+--------+----------+------------+------------+--------------------+-------------
+    101 | Isha     | E-101      | 1234567890 | isha@gmail.com     |         105
+    103 | Neha     | E-101      | 1234567890 | neha@gmail.com     |         101
+    105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |         102
+(3 rows)
+
+4.selecte employee who work either for department
+pruthvi=# select * from employee where department='E-102' or department='E-104';
+ emp_id | emp_name | department | contact_no |    email_id     | emp_head_id
+--------+----------+------------+------------+-----------------+-------------
+    102 | Priya    | E-104      | 1234567890 | priya@yahoo.com |         103
+    104 | Rahul    | E-102      | 1234567890 | rahul@yahoo.com |         105
+(2 rows)
+
+
+5.	What is the department name for DeptID E-102?
+pruthvi=# select dept_name from empdept where dept_id ='E-102';
+  dept_name
+-------------
+ Development
+(1 row)
+
+6.	What is total salarythat is paid to permanent employees?
+
+pruthvi=# select sum(salary) as salary from empsalary where ispermanent='Yes';
+ salary
+--------
+  16200
+(1 row)
+
+7.	List name of all employees whose name ends with a.
+
+pruthvi=# select * from employee where emp_name like '%a';
+ emp_id | emp_name | department | contact_no |    email_id     | emp_head_id
+--------+----------+------------+------------+-----------------+-------------
+    101 | Isha     | E-101      | 1234567890 | isha@gmail.com  |         105
+    102 | Priya    | E-104      | 1234567890 | priya@yahoo.com |         103
+    103 | Neha     | E-101      | 1234567890 | neha@gmail.com  |         101
+(3 rows)
+
+8.	List the number of department of employees in each project.
+
+pruthvi=# select count(empid) as employee, projectid from empproject group by projectid;
+ employee | projectid
+----------+-----------
+        2 | p-1
+        1 | p-2
+        2 | p-4
+(3 rows)
+
+9.	How many project started in year 2010.
+
+pruthvi=# select count(projectid) as project from empproject where startyear=2010;
+ project
+---------
+       2
+(1 row)
+
+10.	How many project started and finished in the same year.
+
+pruthvi=# select count(projectid) as project from empproject where startyear=endyear;
+ project
+---------
+       1
+(1 row)
+
+11.	select the name of the employee whose name's 3rd character is 'h'.
+
+pruthvi=# select * from employee where emp_name like '__h%';
+ emp_id | emp_name | department | contact_no |      email_id      | emp_head_id
+--------+----------+------------+------------+--------------------+-------------
+    101 | Isha     | E-101      | 1234567890 | isha@gmail.com     |         105
+    103 | Neha     | E-101      | 1234567890 | neha@gmail.com     |         101
+    104 | Rahul    | E-102      | 1234567890 | rahul@yahoo.com    |         105
+    105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |         102
+(4 rows)
+
+Nested Queries
+
+
+1.	Select the department name of the company which is assigned to the employee whose employee id is grater 103.
+
+pruthvi=# select dept_name from empdept where dept_id in (select department from employee where emp_id>103);
+  dept_name
+-------------
+ HR
+ Development
+(2 rows)
+
+2.	Select the name of the employee who is working under Abhishek.
+
+pruthvi=# select emp_name from employee where emp_head_id =(select emp_id from employee where emp_name='Abhishek') ;
+ emp_name
+----------
+ Isha
+ Rahul
+(2 rows)
+
+3.	Select the name of the employee who is department head of HR.
+
+pruthvi=# select emp_name from employee where emp_id =(select dept_head from empdept where dept_name='HR');
+ emp_name
+----------
+ Abhishek
+(1 row)
+
+4.	Select the name of the employee head who is permanent
+
+select emp_id from empsalary where ispermanent='Yes');
+ emp_name
+----------
+ Isha
+ Priya
+ Abhishek
+(3 rows)
+
+5.	Select the name and email of the Dept Head who is not Permanent.
+
+pruthvi=# select emp_name, email_id from employee where emp_id in(select dept_head from empdept ) and emp_id in(select emp_id from empsalary where ispermanent='No');
+ emp_name |    email_id
+----------+----------------
+ Neha     | neha@gmail.com
+(1 row)
+
+6.	Select the employee whose department off is monday
+
+pruthvi=# select * from clienttable where cid in(select cid from country where cname='India');
+ clientid | clientname | cid
+----------+------------+-----
+ cl-1     | ABC Group  | c-1
+ cl-2     | PQR        | c-1
+(2 rows)
+
+8.	select the details of all employee working in development department.
+
+pruthvi=# select * from employee where department in(select dept_id from empdept where dept_name='Development');
+ emp_id | emp_name | department | contact_no |    email_id     | emp_head_id
+--------+----------+------------+------------+-----------------+-------------
+    104 | Rahul    | E-102      | 1234567890 | rahul@yahoo.com |         105
+(1 row)
+
