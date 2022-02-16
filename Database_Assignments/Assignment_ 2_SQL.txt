@@ -100,3 +100,131 @@ casestudy=# select * from orders;
   70013 |    3045.6 | 2012-04-25 |        3002 |         5001
 (12 rows)
 
+1.From the following tables write a SQL query to find the salesperson and 
+customer who belongs to same city. Return Salesman, cust_name and city
+
+casestudy=# select salesman.name,customer.cust_name,salesman.city from customer inner join salesman on salesman.city=customer.city;
+    name    |   cust_name    |  city
+------------+----------------+--------
+ Pit Alex   | Julian Green   | London
+ Mc Lyon    | Fabian Johnson | Paris
+ Nail Knite | Fabian Johnson | Paris
+ Pit Alex   | Brad Guzan     | London
+(4 rows)
+
+
+2.From the following tables write a SQL query to find those orders where order 
+amount exists between 500 and 2000. Return ord_no, purch_amt, cust_name, 
+city.
+
+casestudy=# select * from orders where purch_amt between 500 and 2000;
+ ord_no | purch_amt |  ord_date  | customer_id | salesmanr_id
+--------+-----------+------------+-------------+--------------
+  70007 |     948.5 | 2012-09-10 |        3005 |         5002
+  70010 |   1983.43 | 2012-10-10 |        3004 |         5006
+(2 rows)
+
+
+3. From the following tables write a SQL query to find the salesperson(s) and 
+the customer(s) he handle. Return Customer Name, city, Salesman, 
+commission. 
+
+casestudy=# select customer.cust_name,customer.city,salesman.name,salesman.commission from salesman right join customer on salesman.salesman_id=customer.salesman_id;
+   cust_name    |    city    |    name    | commission
+----------------+------------+------------+------------
+ Nick Rimando   | New york   | James Hoog |       0.15
+ Brad Davis     | New york   | James Hoog |       0.15
+ Graham Zusi    | California | Nail Knite |       0.13
+ Julian Green   | London     | Nail Knite |       0.13
+ Fabian Johnson | Paris      | Mc Lyon    |       0.14
+ Geoff Cameron  | Berlin     | Lausen Hen |       0.12
+ Jozy Altidor   | Moscow     | Paul Adam  |       0.13
+ Brad Guzan     | London     | Pit Alex   |       0.11
+(8 rows)
+
+4.From the following tables write a SQL query to find those salespersons who 
+received a commission from the company more than 12%. Return Customer 
+Name, customer city, Salesman, commission.
+------------------------------------------------------------------
+Q2. dannys dinner;
+
+casestudy=# create table sales("customer_id" varchar(1),"order_date" date,"product_id" integer);
+
+casestudy=# insert into sales values('A','2021-01-01','1');
+INSERT 0 1
+casestudy=# insert into sales values('A','2021-01-01','2');
+INSERT 0 1
+casestudy=# insert into sales values('A','2021-01-07','3');
+INSERT 0 1
+casestudy=# insert into sales values('A','2021-01-10','3');
+INSERT 0 1
+casestudy=# insert into sales values('A','2021-01-11','3');
+INSERT 0 1
+casestudy=# insert into sales values('B','2021-01-01','2');
+INSERT 0 1
+casestudy=# insert into sales values('B','2021-01-02','2');
+INSERT 0 1
+casestudy=# insert into sales values('B','2021-01-04','1');
+INSERT 0 1
+casestudy=# insert into sales values('B','2021-01-11','1');
+INSERT 0 1
+casestudy=# insert into sales values('B','2021-01-16','3');
+INSERT 0 1
+casestudy=# insert into sales values('B','2021-02-01','3');
+INSERT 0 1
+casestudy=# insert into sales values('C','2021-01-01','3');
+INSERT 0 1
+casestudy=# insert into sales values('C','2021-01-01','3');
+INSERT 0 1
+casestudy=# insert into sales values('C','2021-01-07','3');
+INSERT 0 1
+casestudy=# SELECT * from sales;
+ customer_id | order_date | product_id
+-------------+------------+------------
+ A           | 2021-01-01 |          1
+ A           | 2021-01-01 |          1
+ A           | 2021-01-01 |          2
+ A           | 2021-01-07 |          3
+ A           | 2021-01-10 |          3
+ A           | 2021-01-11 |          3
+ B           | 2021-01-01 |          2
+ B           | 2021-01-02 |          2
+ B           | 2021-01-04 |          1
+ B           | 2021-01-11 |          1
+ B           | 2021-01-16 |          3
+ B           | 2021-02-01 |          3
+ C           | 2021-01-01 |          3
+ C           | 2021-01-01 |          3
+ C           | 2021-01-07 |          3
+(15 rows)
+
+casestudy=# create table menu("product_id" integer,"product_name" varchar(5),"price" integer);
+CREATE TABLE
+casestudy=# insert into menu values('1','sushi','10');
+INSERT 0 1
+casestudy=# insert into menu values('2','curry','15');
+INSERT 0 1
+casestudy=# insert into menu values('3','ramen','12');
+INSERT 0 1
+casestudy=# select * from menu;
+ product_id | product_name | price
+------------+--------------+-------
+          1 | sushi        |    10
+          2 | curry        |    15
+          3 | ramen        |    12
+(3 rows)
+
+casestudy=# create table members ("customer_id" varchar(1),"join_date" date);
+CREATE TABLE
+casestudy=# insert into members values('A','2021-01-07');
+INSERT 0 1
+casestudy=# insert into members values('B','2021-01-09');
+INSERT 0 1
+casestudy=# select * from members;
+ customer_id | join_date
+-------------+------------
+ A           | 2021-01-07
+ B           | 2021-01-09
+(2 rows)
+
+
